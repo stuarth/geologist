@@ -1,0 +1,8 @@
+[package]
+name = "geologist"
+version = "0.1.0"
+authors = ["Stuart Hinson <stuart.hinson@gmail.com>"]
+
+[dependencies]
+clap = "2"
+rocksdb = "0.10"
