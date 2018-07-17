@@ -6,18 +6,8 @@ use clap::{App, Arg};
 fn main() {
     let matches = App::new("Geologist")
         .about("RocksDB explorer")
-        .arg(
-            Arg::with_name("DB")
-                .help("Sets the db")
-                .required(true)
-                .index(1),
-        )
-        .arg(
-            Arg::with_name("KEY")
-                .help("Sets the key")
-                .required(true)
-                .index(2),
-        )
+        .arg(Arg::with_name("DB").help("Sets the db").required(true))
+        .arg(Arg::with_name("KEY").help("Sets the key").required(true))
         .get_matches();
 
     let db_path = matches.value_of("DB").unwrap();
@@ -28,11 +18,8 @@ fn main() {
     match db.get(key.as_bytes()) {
         Ok(Some(bytes)) => {
             let bytes = bytes.to_vec();
-            if let Ok(s) = String::from_utf8(bytes) {
-                println!("{}", s);
-            } else {
-                println!("could not convert value to utf string")
-            }
+            let s = String::from_utf8_lossy(&bytes);
+            println!("{}", s);
         }
         Ok(None) => println!("'{}' not found!", key),
         Err(e) => eprintln!("error {:?}", e),
